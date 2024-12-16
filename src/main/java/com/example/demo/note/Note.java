@@ -1,26 +1,24 @@
 package com.example.demo.note;
 
 public class Note {
-    private int id;
+    private Long id;
     private String title;
     private String content;
 
-    public Note(String title, String content, int id) {
-        this.title = title;
-        this.content = content;
-        this.id = id;
+
+    public Note() {
+        this.title = "";
+        this.content = "";
+        this.id = null;
     }
 
-    public Note(String title, String content) {
-        this.title = title;
-        this.content = content;
+
+
+    public Long getId() {
+        return (long) Math.toIntExact(id);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -38,5 +36,18 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Note note = (Note) obj;
+        return id != null && id.equals(note.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : super.hashCode();
     }
 }

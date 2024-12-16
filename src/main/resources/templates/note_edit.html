@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<h1>Edit Note</h1>
+<form action="/note/edit" method="post">
+  <input type="hidden" name="id" th:value="${note.id}">
+  <input type="text" name="title" th:value="${note.title}" required>
+  <input type="text" name="content" th:value="${note.content}" required>
+  <button type="submit">Save</button>
+</form>
+</body>
+</html>

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NoteServiceTest {
     NoteService noteService;
+
     @BeforeEach
     void setUp() {
         noteService = new NoteService();
@@ -37,14 +38,14 @@ class NoteServiceTest {
         Note note = new Note("please help", "no");
         Note add = noteService.add(note);
         noteService.deleteById(add.getId());
-        assertEquals(0,noteService.listAll().size());
+        assertEquals(0, noteService.listAll().size());
     }
 
     @Test
     void update() {
         Note note = new Note("please help", "no");
         Note add = noteService.add(note);
-        Note updated = new Note("lol", "kek", add.getId());
+        Note updated = new Note();
         noteService.update(updated);
         add = noteService.getById(add.getId());
         assertNotNull(add);

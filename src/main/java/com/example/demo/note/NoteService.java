@@ -8,12 +8,12 @@ import java.util.Map;
 
 @Service
 public class NoteService {
-    private int id = 0;
-    private final Map<Integer, Note> notes = new HashMap<>();
+    private long id = 0;
+    private final Map<Long, Note> notes = new HashMap<>();
 
-    private int incrementID() {
+    private long incrementID() {
 
-        return id++;
+        return ++id;
     }
 
     public List<Note> listAll() {

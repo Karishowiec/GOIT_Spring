@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<h1>Notes</h1>
+<form action="/note/create" method="post">
+  <input type="text" name="title" placeholder="Title" required>
+  <input type="text" name="content" placeholder="Content" required>
+  <button type="submit">Add Note</button>
+</form>
+<ul>
+  <li th:each="note : ${notes}">
+    <span th:text="${note.title}"></span>: <span th:text="${note.content}"></span>
+    <a th:href="'/note/edit?id=' + ${note.id}">Edit</a>
+    <form th:action="'/note/delete'" method="post" style="display:inline;">
+      <input type="hidden" name="id" th:value="${note.id}">
+      <button type="submit">Delete</button>
+    </form>
+  </li>
+</ul>
+</body>
+</html>

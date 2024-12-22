@@ -1,8 +1,17 @@
 package com.example.demo.note;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Note {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String content;
 
 

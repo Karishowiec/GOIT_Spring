@@ -1,6 +1,7 @@
 package com.example.demo.note.controller;
 
 import com.example.demo.note.Note;
+import com.example.demo.note.service.NoteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,36 +9,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Controller
 @RequestMapping("/note")
 public class NoteController {
+    private final NoteService noteService;
 
-    private final List<Note> notes = new ArrayList<>();
-    private final AtomicLong counter = new AtomicLong(1);
+    public NoteController(NoteService noteService) {
+        this.noteService = noteService;
+    }
 
     @GetMapping("/list")
     public String listNotes(Model model) {
-        model.addAttribute("notes", notes);
+        model.addAttribute("notes", noteService.getAllNotes());
         return "note_list";
     }
 
     @PostMapping("/delete")
     public String deleteNote(@RequestParam("id") Long id) {
-        notes.removeIf(note -> note.getId().equals(id));
+        noteService.deleteNoteById(id);
         return "redirect:/note/list";
     }
 
 
     @GetMapping("/edit")
     public String editNote(@RequestParam("id") Long id, Model model) {
-        Note note = notes.stream()
-                .filter(n -> n.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        Note note = noteService.getById(id);
         model.addAttribute("note", note);
         return "note_edit";
     }
@@ -46,23 +43,14 @@ public class NoteController {
     public String updateNote(@RequestParam("id") Long id,
                              @RequestParam("title") String title,
                              @RequestParam("content") String content) {
-        notes.stream()
-                .filter(n -> n.getId().equals(id))
-                .forEach(note -> {
-                    note.setTitle(title);
-                    note.setContent(content);
-                });
+        noteService.updateNote(id, title, content);
         return "redirect:/note/list";
     }
 
     @PostMapping("/create")
     public String createNote(@RequestParam("title") String title,
                              @RequestParam("content") String content) {
-        Note note = new Note();
-        note.setId(counter.getAndIncrement());
-        note.setTitle(title);
-        note.setContent(content);
-        notes.add(note);
+        noteService.createNote(title, content);
         return "redirect:/note/list";
     }
 

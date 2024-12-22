@@ -1,5 +1,6 @@
 package com.example.demo.note;
 
+import com.example.demo.note.service.NoteService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

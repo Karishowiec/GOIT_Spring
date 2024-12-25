@@ -25,11 +25,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/**").permitAll() // Дозволити доступ до ресурсів /public/** без авторизації
-                        .requestMatchers("/error").permitAll()     // Дозволити доступ до сторінки помилок
-                       .anyRequest().permitAll()             // Усі інші ресурси вимагають авторизації
+                       .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults())                    // Увімкнути сторінку логіну за замовчуванням
+                .formLogin(form -> form
+                        .defaultSuccessUrl("/note/list", true)
+
+                )
                 .httpBasic(withDefaults());
         http.cors(cors -> cors.disable());
         http.csrf(csrf -> csrf.disable());
